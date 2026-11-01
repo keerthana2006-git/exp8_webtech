@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="scienceApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Science Fair Project Site</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf6ff;
+            margin: 0;
+            text-align: center;
+        }
+
+        header {
+            background: #003366;
+            color: white;
+            padding: 25px;
+        }
+
+        .container {
+            background: white;
+            width: 80%;
+            max-width: 700px;
+            margin: 25px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px gray;
+        }
+
+        input, textarea, select {
+            padding: 10px;
+            margin: 8px;
+            width: 80%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #0077b6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #023e8a;
+        }
+
+        li {
+            margin: 10px;
+            text-align: left;
+        }
+
+        footer {
+            background: #003366;
+            color: white;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>WELCOME TO THE SCIENCE FAIR 2026</h1>
+    <h3>Explore Science Through Innovation</h3>
+</header>
+
+<!-- PROGRAM 1: COMMENT BOX -->
+
+<div class="container"
+     ng-controller="CommentCtrl">
+
+    <h2>1. Science Fair Feedback</h2>
+
+    <h3>Post Your Comment</h3>
+
+    <textarea ng-model="newComment"
+              placeholder="Your Comment"></textarea>
+
+    <br>
+
+    <button ng-click="addComment()">
+        Post Comment
+    </button>
+
+    <h3>Comments</h3>
+
+    <ul>
+        <li ng-repeat="c in comments">
+            {{c}}
+
+            <button ng-click="removeComment($index)">
+                Delete
+            </button>
+        </li>
+    </ul>
+
+</div>
+
+
+<!-- PROGRAM 2: CALCULATOR -->
+
+<div class="container"
+     ng-controller="CalculatorCtrl">
+
+    <h2>2. Science Fair Calculator</h2>
+
+    <p>Calculate the total project budget</p>
+
+    <input type="number"
+           ng-model="a"
+           placeholder="Enter First Amount">
+
+    <input type="number"
+           ng-model="b"
+           placeholder="Enter Second Amount">
+
+    <select ng-model="operator">
+        <option value="+">Addition (+)</option>
+        <option value="-">Subtraction (-)</option>
+        <option value="*">Multiplication (*)</option>
+        <option value="/">Division (/)</option>
+    </select>
+
+    <h3>Result: {{calculate()}}</h3>
+
+</div>
+
+
+<!-- PROGRAM 3: TO-DO LIST -->
+
+<div class="container"
+     ng-controller="TodoCtrl">
+
+    <h2>3. Science Fair Project Task List</h2>
+
+    <p>Add your science fair activities</p>
+
+    <input type="text"
+           ng-model="taskName"
+           placeholder="Enter Project Task">
+
+    <button ng-click="addTask()">
+        Add Task
+    </button>
+
+    <ul>
+        <li ng-repeat="task in tasks">
+            {{task}}
+
+            <button ng-click="deleteTask($index)">
+                Delete
+            </button>
+        </li>
+    </ul>
+
+</div>
+
+
+<footer>
+    <p>Keerthana - Science Fair Project Site</p>
+    <p>Web Technology Experiment 8</p>
+</footer>
+
+
+<script>
+
+var app = angular.module("scienceApp", []);
+
+
+// PROGRAM 1: COMMENT CONTROLLER
+
+app.controller("CommentCtrl", function($scope) {
+
+    $scope.comments = [];
+
+    $scope.addComment = function() {
+
+        if ($scope.newComment) {
+            $scope.comments.push($scope.newComment);
+            $scope.newComment = "";
+        }
+
+    };
+
+    $scope.removeComment = function(index) {
+        $scope.comments.splice(index, 1);
+    };
+
+});
+
+
+// PROGRAM 2: CALCULATOR CONTROLLER
+
+app.controller("CalculatorCtrl", function($scope) {
+
+    $scope.a = 0;
+    $scope.b = 0;
+    $scope.operator = "+";
+
+    $scope.calculate = function() {
+
+        if ($scope.operator == "+")
+            return $scope.a + $scope.b;
+
+        if ($scope.operator == "-")
+            return $scope.a - $scope.b;
+
+        if ($scope.operator == "*")
+            return $scope.a * $scope.b;
+
+        if ($scope.operator == "/") {
+
+            if ($scope.b == 0)
+                return "Cannot divide by zero";
+
+            return $scope.a / $scope.b;
+        }
+
+    };
+
+});
+
+
+// PROGRAM 3: TODO CONTROLLER
+
+app.controller("TodoCtrl", function($scope) {
+
+    $scope.tasks = [];
+
+    $scope.addTask = function() {
+
+        if ($scope.taskName) {
+            $scope.tasks.push($scope.taskName);
+            $scope.taskName = "";
+        }
+
+    };
+
+    $scope.deleteTask = function(index) {
+        $scope.tasks.splice(index, 1);
+    };
+
+});
+
+</script>
+
+</body>
+</html>
